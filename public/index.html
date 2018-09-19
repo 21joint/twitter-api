@@ -6,9 +6,36 @@
 </head>
 
 <body>
-<form action="">
-  <input id="query" type="text">
-</form>
+<input id="query" type="text">
+<button id="getTweets">Get Tweets</button>
+<pre id="json"></pre>
+<script>
+  document.getElementById('getTweets').addEventListener('click', getTweets);
+
+  function getTweets () {
+    var query = document.getElementById('query').value;
+    var url = "/tweets";
+    var params = 'query='+ query
+    var ajax = new XMLHttpRequest();
+
+    ajax.open("GET", url+"?"+params, true);
+
+    ajax.send();
+
+    ajax.onreadystatechange = function() {
+
+      if (ajax.readyState == 4 && ajax.status == 200) {
+
+        var data = ajax.responseText;
+
+        document.getElementById("json").innerHTML = data;
+
+        console.log(data);
+      }
+    }
+  }
+
+</script>
 </body>
 
 </html>

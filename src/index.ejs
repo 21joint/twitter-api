@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title><%= require('../package').name %></title>
+</head>
+
+<body>
+<header class="py-3">
+    <div class="container">
+        <div class="row no-gutters">
+            <div class="col mr-3">
+                <input title="query" class="form-control" id="query" type="text">
+            </div>
+            <div class="col-auto">
+                <button type="button" class="btn" id="getTweets">Get Tweets</button>
+            </div>
+        </div>
+    </div>
+</header>
+<pre id="json"></pre>
+
+
+<script>
+    document.getElementById('getTweets').addEventListener('click', getTweets, null);
+
+    function getTweets() {
+        var query = document.getElementById('query').value;
+        var url = '/tweets';
+        var params = 'query="' + query + '"';
+        var ajax = new XMLHttpRequest();
+        // https://twitter.com/search?l=&q=%22my%20word%22%20since%3A2018-09-05%20until%3A2018-09-08&src=typd
+        ajax.open('GET', url + '?' + params, true);
+
+        ajax.send();
+
+        ajax.onreadystatechange = function () {
+
+            if (ajax.readyState == 4 && ajax.status == 200) {
+
+                var data = ajax.responseText;
+
+                document.getElementById('json').innerHTML = data;
+
+                console.log(JSON.parse(data));
+            }
+        };
+    }
+
+</script>
+</body>
+
+</html>
